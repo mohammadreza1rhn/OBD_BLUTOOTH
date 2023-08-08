@@ -192,8 +192,8 @@ class MainActivity : AppCompatActivity() {
                         if(!device.name.isNullOrEmpty()){
                             device1.text=device.name
                             foundedDevice=device
-                            device.createRfcommSocketToServiceRecord(UUID.fromString(device.uuids.toString()))
-                            device.
+//                            device.createRfcommSocketToServiceRecord(UUID.fromString(device.uuids.toString()))
+
                         }
                         when(device.bondState){
                             BluetoothDevice.BOND_NONE->{
