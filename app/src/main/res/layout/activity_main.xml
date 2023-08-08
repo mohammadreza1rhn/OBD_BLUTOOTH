@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/btOnOff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="on/off"
+            android:background="#424546"
+            android:textColor="#FFF"
+            />
+        <Button
+            android:id="@+id/btDiscoverability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="discover"
+            android:background="#424510"
+            android:textColor="#FFA"
+            android:layout_marginTop="15dp"
+            />
+        <Button
+            android:id="@+id/btGetPairedDevices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get paired Deviced"
+            android:background="#424510"
+            android:textColor="#FFA"
+            android:layout_marginTop="15dp"
+            />
+        <Button
+            android:id="@+id/btDiscoverDevices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get Scanned Devices"
+            android:background="#424510"
+            android:textColor="#FFA"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/device1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#D5CB76"
+            android:textColor="#97272B"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/device2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#D5CB76"
+            android:textColor="#97272B"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/device3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#D5CB76"
+            android:textColor="#97272B"
+            android:textAlignment="center"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
