@@ -6,7 +6,10 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
+import android.bluetooth.le.ScanCallback
+import android.bluetooth.le.ScanResult
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.DialogInterface
@@ -113,6 +116,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
             this,
@@ -194,6 +202,10 @@ class MainActivity : AppCompatActivity() {
                             foundedDevice=device
 //                            device.createRfcommSocketToServiceRecord(UUID.fromString(device.uuids.toString()))
 
+                            if(device.name=="YSW10"){
+//                                AcceptThread().run()
+//                                ConnectThread(device).run()
+                            }
                         }
                         when(device.bondState){
                             BluetoothDevice.BOND_NONE->{
@@ -280,7 +292,76 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    @SuppressLint("MissingPermission")
+    private inner class AcceptThread : Thread() {
 
+        private val mmServerSocket: BluetoothServerSocket? by lazy(LazyThreadSafetyMode.NONE) {
+            bluetoothAdapter?.listenUsingInsecureRfcommWithServiceRecord("OBD", UUID.fromString("6680b2c1-bd6f-41b0-b3be-023ca4cb4fd3"))
+        }
+
+        override fun run() {
+// Keep listening until exception occurs or a socket is returned.
+            var shouldLoop = true
+            while (shouldLoop) {
+                val socket: BluetoothSocket? = try {
+                    Log.e("message1", "running")
+                    mmServerSocket?.accept()
+                } catch (e: IOException) {
+                    Log.e("message1", "Socket's accept() method failed", e)
+                    shouldLoop = false
+                    null
+                }
+                socket?.also {
+//                    manageMyConnectedSocket(it)
+                    Log.e("message1", "manage cc1")
+                    mmServerSocket?.close()
+                    shouldLoop = false
+                }
+            }
+        }
+
+        // Closes the connect socket and causes the thread to finish.
+        fun cancel() {
+            try {
+                mmServerSocket?.close()
+            } catch (e: IOException) {
+                Log.e("message1", "Could not close the connect socket", e)
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private inner class ConnectThread(device: BluetoothDevice) : Thread() {
+
+        private val mmSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
+            device.createRfcommSocketToServiceRecord(UUID.fromString("6680b2c1-bd6f-41b0-b3be-023ca4cb4fd3"))
+        }
+
+        public override fun run() {
+// Cancel discovery because it otherwise slows down the connection.
+            bluetoothAdapter?.cancelDiscovery()
+
+            mmSocket?.use { socket ->
+// Connect to the remote device through the socket. This call blocks
+// until it succeeds or throws an exception.
+                socket.connect()
+
+// The connection attempt succeeded. Perform work associated with
+// the connection in a separate thread.
+//                manageMyConnectedSocket(socket)
+                Log.e("message1", "manage cc2")
+            }
+        }
+
+        // Closes the client socket and causes the thread to finish.
+        fun cancel() {
+            try {
+                mmSocket?.close()
+            } catch (e: IOException) {
+                Log.e("messag1", "Could not close the client socket", e)
+            }
+        }
+    }
 
 
 }
